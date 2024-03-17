@@ -1,0 +1,31 @@
+from tkinter import Tk, Label, Entry, Button, messagebox
+from phonenumbers import geocoder, carrier, parse
+
+def get_phone_info():
+    user_input = entry.get()
+    try:
+        number = parse(user_input, None)
+        country = geocoder.description_for_number(number, "en")
+        operator = carrier.name_for_number(number, "en")
+        result_label.config(text=f"Country: {country}\nOperator: {operator}")
+    except Exception as e:
+        messagebox.showerror("Error", f"Error: {e}")
+
+# Create the main window
+window = Tk()
+window.title("Phone Number Info")
+
+# Create GUI components
+label = Label(window, text="Enter a phone number:")
+entry = Entry(window)
+result_label = Label(window, text="")
+get_info_button = Button(window, text="Get Info", command=get_phone_info)
+
+# Place components in the window
+label.grid(row=0, column=0, padx=10, pady=10)
+entry.grid(row=0, column=1, padx=10, pady=10)
+get_info_button.grid(row=1, column=0, columnspan=2, pady=10)
+result_label.grid(row=2, column=0, columnspan=2, pady=10)
+
+# Start the Tkinter event loop
+window.mainloop()
